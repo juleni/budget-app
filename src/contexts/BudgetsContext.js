@@ -28,9 +28,9 @@ export const BudgetsProvider = ({ children }) => {
   function getBudgetExpenses(budgetId) {
     return expenses.filter((expense) => expense.budgetId === budgetId);
   }
-  function addExpense({ budgetId, amount, description }) {
+  function addExpense({ description, amount, budgetId }) {
     setExpenses((prevExpense) => {
-      return [...prevExpense, { id: uuidV4, budgetId, amount, description }];
+      return [...prevExpense, { id: uuidV4(), description, amount, budgetId }];
     });
   }
   function addBudget({ name, max }) {
@@ -38,18 +38,18 @@ export const BudgetsProvider = ({ children }) => {
       if (prevBudget.find((budget) => budget.name === name)) {
         return prevBudget;
       }
-      return [...prevBudget, { id: uuidV4, name, max }];
+      return [...prevBudget, { id: uuidV4(), name, max }];
     });
   }
   function deleteBudget({ id }) {
     // TODO: Deal with expenses - uncategorized
     setBudgets((prevBudget) => {
-      return prevBudget.find((budget) => budget.id !== id);
+      return prevBudget.filter((budget) => budget.id !== id);
     });
   }
   function deleteExpense({ id }) {
     setExpenses((prevExpense) => {
-      return prevExpense.find((expense) => expense.id !== id);
+      return prevExpense.filter((expense) => expense.id !== id);
     });
   }
 
