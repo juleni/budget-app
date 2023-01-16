@@ -44,7 +44,13 @@ export const BudgetsProvider = ({ children }) => {
     });
   }
   function deleteBudget({ id }) {
-    // TODO: Deal with expenses - uncategorized
+    // Delete expenses assigned to deleted budget
+    setExpenses((prevExpenses) => {
+      return prevExpenses.map((expense) => {
+        if (expense.budgetId !== id) return expense;
+        return { ...expense, budgetId: UNCATEGORIZED_BUDGET_ID };
+      });
+    });
     setBudgets((prevBudget) => {
       return prevBudget.filter((budget) => budget.id !== id);
     });
